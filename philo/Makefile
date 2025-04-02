@@ -1,6 +1,6 @@
 LIB_PHILO=./libphilo.a
 PHILO_MAIN=./main.c
-SRCS=
+SRCS=atol.c ft_isspace.c ft_strlen.c
 OBJS=$(SRCS:%.c=%.o)
 NAME=./philo
 CC=cc
@@ -13,7 +13,7 @@ RM=rm -f
 all: $(NAME)
 %.o: %.c
 	$(CC) $(CFLAGS) -c $^ -o $@
-$(LIB_PHILO):
+$(LIB_PHILO): $(OBJS)
 	$(AR) $@ $?
 $(NAME): $(LIB_PHILO) $(PHILO_MAIN)
 	$(CC) $(CFLAGS) $(PHILO_MAIN) -o $@ $(LIBS)
