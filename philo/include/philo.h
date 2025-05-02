@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lazmoud <lazmoud@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/02 16:47:51 by lazmoud           #+#    #+#             */
+/*   Updated: 2025/05/02 16:48:57 by lazmoud          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_H
 # define PHILO_H
 # include <unistd.h>
@@ -9,28 +21,20 @@
 # define BASE_10 "0123456789"
 # define MAX_LONG 9223372036854775807
 
-typedef enum e_cluster_action
-{
-	CINIT,
-	CGET,
-	SPAWN_THREADS,
-	CFREE,
-}	t_cluster_action;
-
 typedef enum e_state
 {
 	NONE = 0,
 	EATING = 1 << 0,
 	THINKING = 1 << 1,
 	SLEEPING = 1 << 2,
-} t_philo_state;
+}	t_philo_state;
 
 typedef struct s_philo
 {
 	t_philo_state	state;
 	long			*configuration;
 	size_t			id;
-} t_philo;
+}	t_philo;
 
 typedef struct s_philo_cluster
 {
@@ -50,7 +54,8 @@ typedef enum e_result
 	RESULT_SIZE
 }	t_result;
 
-typedef enum e_philosopher_stats {
+typedef enum e_philosopher_stats
+{
 	NUMBER_OF_PHILOSOPHERS=0,
 	TIME_TO_DIE,
 	TIME_TO_EAT,
@@ -66,15 +71,12 @@ typedef struct s_num
 	long					*number;
 }							t_num;
 
-int			ft_isspace(int c);
-size_t		ft_strlen(char *s);
-t_result	ft_atol_base(const char *str, const char *base, long *where);
-void		parse_stats(int ac, char **av, long out[STAT_COUNT]);
-char		*t_stat_as_cstr(t_philosopher_stats r);
-char		*t_result_as_cstr(t_result r);
-
-// THE CLUSTER INTERFACE
-//
+int				ft_isspace(int c);
+size_t			ft_strlen(char *s);
+t_result		ft_atol_base(const char *str, const char *base, long *where);
+void			parse_stats(int ac, char **av, long out[STAT_COUNT]);
+char			*t_stat_as_cstr(t_philosopher_stats r);
+char			*t_result_as_cstr(t_result r);
 void			*default_routine(void *index_ptr);
 void			cluster_init(long *stats);
 void			cluster_free(void);
