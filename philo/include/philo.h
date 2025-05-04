@@ -6,13 +6,14 @@
 /*   By: lazmoud <lazmoud@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 16:47:51 by lazmoud           #+#    #+#             */
-/*   Updated: 2025/05/02 16:48:57 by lazmoud          ###   ########.fr       */
+/*   Updated: 2025/05/02 18:59:39 by lazmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 # include <unistd.h>
+# include <sys/time.h>
 # include <pthread.h>
 # include <string.h>
 # include <stdio.h>
@@ -27,13 +28,23 @@ typedef enum e_state
 	EATING = 1 << 0,
 	THINKING = 1 << 1,
 	SLEEPING = 1 << 2,
+	DONE_ = 1 << 4,
+	DEAD = 1 << 5
 }	t_philo_state;
+
+typedef enum s_cl_state
+{
+	STILL_GOING,
+	STOPPED
+}	t_cl_state;
 
 typedef struct s_philo
 {
 	t_philo_state	state;
 	long			*configuration;
 	size_t			id;
+	long			last_meal_ts;
+	long			meal_count;
 }	t_philo;
 
 typedef struct s_philo_cluster
@@ -42,7 +53,10 @@ typedef struct s_philo_cluster
 	pthread_mutex_t	*forks;
 	pthread_t		*threads;
 	pthread_mutex_t	outlock;
+	pthread_mutex_t	state_lock;
+	t_cl_state		cluster_state;
 	size_t			count;
+	long			ts_start;
 }	t_philo_cluster;
 
 typedef enum e_result
@@ -78,8 +92,19 @@ void			parse_stats(int ac, char **av, long out[STAT_COUNT]);
 char			*t_stat_as_cstr(t_philosopher_stats r);
 char			*t_result_as_cstr(t_result r);
 void			*default_routine(void *index_ptr);
+void			*thread_monitor(void *data);
 void			cluster_init(long *stats);
 void			cluster_free(void);
 void			cluster_start_threads(void *f);
 t_philo_cluster	*cluster_get(void);
+size_t			left(size_t i);
+size_t			right(size_t i);
+t_philo			*get_right_philo(size_t i);
+t_philo			*get_left_philo(size_t i);
+long			get_timestamp(void);
+void			sleep_(long ms);
+pthread_mutex_t	*get_fork(size_t i);
+void			take_forks(size_t index);
+void			release_forks(size_t index);
+int				simulation_ended(void);
 #endif // !PHILO_H

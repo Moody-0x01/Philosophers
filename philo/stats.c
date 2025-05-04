@@ -33,10 +33,7 @@ void	parse_stats(int ac, char **av, long out[STAT_COUNT])
 	if ((ac - 1) < NUMBER_OF_TIMES_EACH_PHILOSOPHER_MUST_EAT)
 		invalid_args(av[0], "expected more arguments\n");
 	if ((ac - 1) < STAT_COUNT)
-	{
 		out[NUMBER_OF_TIMES_EACH_PHILOSOPHER_MUST_EAT] = -1;
-		printf("Defaulted\n");
-	}
 	i = 0;
 	while (i + 1 < ac && i <= NUMBER_OF_TIMES_EACH_PHILOSOPHER_MUST_EAT)
 	{
