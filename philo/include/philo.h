@@ -6,7 +6,7 @@
 /*   By: lazmoud <lazmoud@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 16:47:51 by lazmoud           #+#    #+#             */
-/*   Updated: 2025/05/02 18:59:39 by lazmoud          ###   ########.fr       */
+/*   Updated: 2025/05/04 16:37:01 by lazmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,12 +99,17 @@ void			cluster_start_threads(void *f);
 t_philo_cluster	*cluster_get(void);
 size_t			left(size_t i);
 size_t			right(size_t i);
-t_philo			*get_right_philo(size_t i);
-t_philo			*get_left_philo(size_t i);
 long			get_timestamp(void);
 void			sleep_(long ms);
 pthread_mutex_t	*get_fork(size_t i);
 void			take_forks(size_t index);
 void			release_forks(size_t index);
 int				simulation_ended(void);
+void			philo_kill(t_philo *target);
+void			philo_sleep(t_philo *target);
+void			philo_eat(t_philo *target);
+void			philo_think(t_philo *target);
+int				philo_check_hp(void);
+int				philo_is_starved(t_philo *target);
+int				should_sim_stop(void);
 #endif // !PHILO_H
