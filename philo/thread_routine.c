@@ -6,7 +6,7 @@
 /*   By: lazmoud <lazmoud@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 15:05:15 by lazmoud           #+#    #+#             */
-/*   Updated: 2025/05/04 16:38:09 by lazmoud          ###   ########.fr       */
+/*   Updated: 2025/05/04 19:55:24 by lazmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <philo.h>
@@ -44,6 +44,8 @@ void	*default_routine(void *id_ptr)
 			target->state = DONE_;
 			break ;
 		}
+		if (target->state == DEAD)
+			break ;
 		philo_sleep(target);
 	}
 	return (NULL);
@@ -54,6 +56,8 @@ int	philo_is_starved(t_philo *target)
 	long	last_meal_ts;
 	long	time_to_die;
 
+	if (target->state == DEAD)
+		return (1);
 	last_meal_ts = target->last_meal_ts;
 	time_to_die = target->configuration[TIME_TO_DIE];
 	return (last_meal_ts != -1 && get_timestamp() - last_meal_ts > time_to_die);

@@ -6,7 +6,7 @@
 /*   By: lazmoud <lazmoud@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 16:47:51 by lazmoud           #+#    #+#             */
-/*   Updated: 2025/05/04 16:37:01 by lazmoud          ###   ########.fr       */
+/*   Updated: 2025/05/04 18:58:45 by lazmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ typedef struct s_philo
 	t_philo_state	state;
 	long			*configuration;
 	size_t			id;
+	size_t			lfork;
+	size_t			rfork;
 	long			last_meal_ts;
 	long			meal_count;
 }	t_philo;
@@ -102,8 +104,8 @@ size_t			right(size_t i);
 long			get_timestamp(void);
 void			sleep_(long ms);
 pthread_mutex_t	*get_fork(size_t i);
-void			take_forks(size_t index);
-void			release_forks(size_t index);
+void			release_forks(t_philo *target);
+void			take_forks(t_philo *target);
 int				simulation_ended(void);
 void			philo_kill(t_philo *target);
 void			philo_sleep(t_philo *target);

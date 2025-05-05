@@ -6,7 +6,7 @@
 /*   By: lazmoud <lazmoud@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:38:44 by lazmoud           #+#    #+#             */
-/*   Updated: 2025/05/02 19:03:53 by lazmoud          ###   ########.fr       */
+/*   Updated: 2025/05/04 18:59:47 by lazmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <philo.h>
@@ -33,6 +33,8 @@ void	cluster_init(long *stats)
 	{
 		(cluster->philos + i)->state = NONE;
 		(cluster->philos + i)->configuration = stats;
+		(cluster->philos + i)->lfork = i;
+		(cluster->philos + i)->rfork = (i + 1) % cluster->count;
 		(cluster->philos + i)->id = (i + 1);
 		(cluster->philos + i)->last_meal_ts = -1;
 		(cluster->philos + i)->meal_count = 0;

@@ -6,7 +6,7 @@
 /*   By: lazmoud <lazmoud@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:31:36 by lazmoud           #+#    #+#             */
-/*   Updated: 2025/05/04 16:31:34 by lazmoud          ###   ########.fr       */
+/*   Updated: 2025/05/04 19:10:18 by lazmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <philo.h>
@@ -40,7 +40,13 @@ void	philo_eat(t_philo *target)
 	t_philo_cluster	*cluster;
 
 	cluster = cluster_get();
-	take_forks(target->id - 1);
+	take_forks(target);
+	if (cluster->count == 1)
+	{
+		release_forks(target);
+		philo_kill(target);
+		return ;
+	}
 	target->state = EATING;
 	pthread_mutex_lock(&cluster->outlock);
 	printf("%ld %zu is eating\n",
@@ -48,7 +54,7 @@ void	philo_eat(t_philo *target)
 	pthread_mutex_unlock(&cluster->outlock);
 	sleep_(target->configuration[TIME_TO_EAT]);
 	target->last_meal_ts = get_timestamp();
-	release_forks(target->id - 1);
+	release_forks(target);
 	target->meal_count++;
 }
 
@@ -78,11 +84,9 @@ int	philo_check_hp(void)
 	{
 		if (all[index].state != DONE_)
 		{
-			if (philo_is_starved(all + index))
-			{
+			if (all[index].state != DEAD && philo_is_starved(all + index))
 				philo_kill(all + index);
-				return (0);
-			}
+			return (0);
 		}
 		index++;
 	}
