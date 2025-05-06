@@ -6,7 +6,7 @@
 /*   By: lazmoud <lazmoud@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 13:31:36 by lazmoud           #+#    #+#             */
-/*   Updated: 2025/05/04 19:10:18 by lazmoud          ###   ########.fr       */
+/*   Updated: 2025/05/05 17:00:24 by lazmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <philo.h>
@@ -27,9 +27,11 @@ void	philo_think(t_philo *target)
 {
 	t_philo_cluster	*cluster;
 
+	if (should_sim_stop())
+		return ;
 	cluster = cluster_get();
-	pthread_mutex_lock(&cluster->outlock);
 	target->state = THINKING;
+	pthread_mutex_lock(&cluster->outlock);
 	printf("%ld %zu is thinking\n",
 		(get_timestamp() - cluster->ts_start), target->id);
 	pthread_mutex_unlock(&cluster->outlock);
@@ -39,6 +41,8 @@ void	philo_eat(t_philo *target)
 {
 	t_philo_cluster	*cluster;
 
+	if (should_sim_stop())
+		return ;
 	cluster = cluster_get();
 	take_forks(target);
 	if (cluster->count == 1)
@@ -62,6 +66,8 @@ void	philo_sleep(t_philo *target)
 {
 	t_philo_cluster	*cluster;
 
+	if (should_sim_stop())
+		return ;
 	cluster = cluster_get();
 	target->state = SLEEPING;
 	pthread_mutex_lock(&cluster->outlock);
@@ -82,11 +88,14 @@ int	philo_check_hp(void)
 	index = 0;
 	while (index < count)
 	{
-		if (all[index].state != DONE_)
+		if (all[index].state != EATING)
 		{
 			if (all[index].state != DEAD && philo_is_starved(all + index))
+			{
 				philo_kill(all + index);
-			return (0);
+				pthread_detach(cluster_get()->threads[index]);
+				return (0);
+			}
 		}
 		index++;
 	}
