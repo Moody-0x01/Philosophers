@@ -6,7 +6,7 @@
 /*   By: lazmoud <lazmoud@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 16:47:51 by lazmoud           #+#    #+#             */
-/*   Updated: 2025/05/04 18:58:45 by lazmoud          ###   ########.fr       */
+/*   Updated: 2025/05/10 15:30:04 by lazmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ typedef enum s_cl_state
 typedef struct s_philo
 {
 	t_philo_state	state;
+	pthread_mutex_t	philo_state_lock;
+	pthread_mutex_t	philo_ts_lock;
 	long			*configuration;
 	size_t			id;
 	size_t			lfork;
@@ -107,6 +109,8 @@ pthread_mutex_t	*get_fork(size_t i);
 void			release_forks(t_philo *target);
 void			take_forks(t_philo *target);
 int				simulation_ended(void);
+void			simulation_stop(void);
+void			*simulation_start(t_philo *target);
 void			philo_kill(t_philo *target);
 void			philo_sleep(t_philo *target);
 void			philo_eat(t_philo *target);
@@ -114,4 +118,6 @@ void			philo_think(t_philo *target);
 int				philo_check_hp(void);
 int				philo_is_starved(t_philo *target);
 int				should_sim_stop(void);
+void			init_philosophers(t_philo_cluster *cluster, long *stats);
+int				meal_threshhold_reached(t_philo *philo);
 #endif // !PHILO_H

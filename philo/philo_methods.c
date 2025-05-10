@@ -6,7 +6,7 @@
 /*   By: lazmoud <lazmoud@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 18:35:47 by lazmoud           #+#    #+#             */
-/*   Updated: 2025/05/05 16:46:51 by lazmoud          ###   ########.fr       */
+/*   Updated: 2025/05/06 16:09:12 by lazmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <philo.h>
@@ -21,6 +21,11 @@ static void	__take_fork(pthread_mutex_t	*fork, size_t id)
 	printf("%ld %zu has taken a fork\n",
 		(get_timestamp() - cluster->ts_start), id);
 	pthread_mutex_unlock(&cluster->outlock);
+}
+
+pthread_mutex_t	*get_fork(size_t i)
+{
+	return (cluster_get()->forks + i);
 }
 
 void	take_forks(t_philo *target)
