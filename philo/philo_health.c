@@ -6,7 +6,7 @@
 /*   By: lazmoud <lazmoud@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 15:28:39 by lazmoud           #+#    #+#             */
-/*   Updated: 2025/05/10 15:29:48 by lazmoud          ###   ########.fr       */
+/*   Updated: 2025/05/10 19:01:01 by lazmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <philo.h>
@@ -49,6 +49,9 @@ int	philo_check_hp(void)
 		index++;
 	}
 	if (done == count)
+	{
 		simulation_stop();
+		return (0);
+	}
 	return (done != count);
 }

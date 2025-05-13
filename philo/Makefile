@@ -6,8 +6,7 @@ NAME=./philo
 CC=cc
 LIBS=-L. -lphilo -pthread
 INCLUDE=-I./include
-CFLAGS=-Wall -Wextra -Werror $(INCLUDE) -ggdb -g
-# -fsanitize=address 
+CFLAGS=-Wall -Wextra -Werror $(INCLUDE) -ggdb -g # -fsanitize=address 
 AR=ar rsc
 RM=rm -f
 

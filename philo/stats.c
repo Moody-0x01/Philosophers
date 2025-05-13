@@ -6,7 +6,7 @@
 /*   By: lazmoud <lazmoud@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 15:02:47 by lazmoud           #+#    #+#             */
-/*   Updated: 2025/05/04 19:55:04 by lazmoud          ###   ########.fr       */
+/*   Updated: 2025/05/10 18:14:30 by lazmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <philo.h>
@@ -43,6 +43,18 @@ void	parse_stats(int ac, char **av, long out[STAT_COUNT])
 			printf("`%s` is Not a number\n", av[i + 1]);
 			invalid_args(av[0], "Only numeric arguments are allowed\n");
 		}
+		i++;
+	}
+}
+
+void	stats_copy(long out[STAT_COUNT], long in[STAT_COUNT])
+{
+	int	i;
+
+	i = 0;
+	while (i < STAT_COUNT)
+	{
+		out[i] = in[i];
 		i++;
 	}
 }

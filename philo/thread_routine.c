@@ -6,7 +6,7 @@
 /*   By: lazmoud <lazmoud@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 15:05:15 by lazmoud           #+#    #+#             */
-/*   Updated: 2025/05/10 15:16:21 by lazmoud          ###   ########.fr       */
+/*   Updated: 2025/05/10 18:08:12 by lazmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <philo.h>
@@ -34,9 +34,9 @@ void	*default_routine(void *id_ptr)
 	target = &all[index];
 	if (index % 2 == 0)
 		sleep_(600);
-	pthread_mutex_lock(&target->philo_ts_lock);
+	pthread_mutex_lock(&(target->philo_ts_lock));
 	target->last_meal_ts = get_timestamp();
-	pthread_mutex_unlock(&target->philo_ts_lock);
+	pthread_mutex_unlock(&(target->philo_ts_lock));
 	return (simulation_start(target));
 }
 
@@ -45,9 +45,9 @@ int	philo_is_starved(t_philo *target)
 	long	last_meal_ts;
 	long	time_to_die;
 
-	pthread_mutex_lock(&target->philo_ts_lock);
+	pthread_mutex_lock(&(target->philo_ts_lock));
 	last_meal_ts = target->last_meal_ts;
-	pthread_mutex_unlock(&target->philo_ts_lock);
+	pthread_mutex_unlock(&(target->philo_ts_lock));
 	time_to_die = target->configuration[TIME_TO_DIE];
 	return (last_meal_ts != -1 && get_timestamp() - last_meal_ts > time_to_die);
 }

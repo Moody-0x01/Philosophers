@@ -6,7 +6,7 @@
 /*   By: lazmoud <lazmoud@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 15:14:45 by lazmoud           #+#    #+#             */
-/*   Updated: 2025/05/10 15:16:40 by lazmoud          ###   ########.fr       */
+/*   Updated: 2025/05/10 18:59:58 by lazmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <philo.h>
@@ -27,8 +27,7 @@ void	*simulation_start(t_philo *target)
 		pthread_mutex_lock(&target->philo_state_lock);
 		if (meal_threshhold_reached(target))
 		{
-			if (target->state != DEAD)
-				target->state = DONE_;
+			target->state = DONE_;
 			pthread_mutex_unlock(&target->philo_state_lock);
 			break ;
 		}

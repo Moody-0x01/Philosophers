@@ -6,7 +6,7 @@
 /*   By: lazmoud <lazmoud@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 16:47:51 by lazmoud           #+#    #+#             */
-/*   Updated: 2025/05/10 15:30:04 by lazmoud          ###   ########.fr       */
+/*   Updated: 2025/05/10 18:15:41 by lazmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,12 @@
 typedef enum e_state
 {
 	NONE = 0,
-	EATING = 1 << 0,
-	THINKING = 1 << 1,
-	SLEEPING = 1 << 2,
-	DONE_ = 1 << 4,
-	DEAD = 1 << 5
+	EATING,
+	THINKING,
+	SLEEPING,
+	DONE_,
+	DEAD,
+	SCOUNT
 }	t_philo_state;
 
 typedef enum s_cl_state
@@ -38,12 +39,22 @@ typedef enum s_cl_state
 	STOPPED
 }	t_cl_state;
 
+typedef enum e_philosopher_stats
+{
+	NUMBER_OF_PHILOSOPHERS=0,
+	TIME_TO_DIE,
+	TIME_TO_EAT,
+	TIME_TO_SLEEP,
+	NUMBER_OF_TIMES_EACH_PHILOSOPHER_MUST_EAT, // [OPTIONAL] STAT
+	STAT_COUNT
+}	t_philosopher_stats;
+
 typedef struct s_philo
 {
 	t_philo_state	state;
 	pthread_mutex_t	philo_state_lock;
 	pthread_mutex_t	philo_ts_lock;
-	long			*configuration;
+	long			configuration[STAT_COUNT];
 	size_t			id;
 	size_t			lfork;
 	size_t			rfork;
@@ -61,6 +72,7 @@ typedef struct s_philo_cluster
 	t_cl_state		cluster_state;
 	size_t			count;
 	long			ts_start;
+	int				init_success;
 }	t_philo_cluster;
 
 typedef enum e_result
@@ -71,16 +83,6 @@ typedef enum e_result
 	OVER_FLOW_DETECTED,
 	RESULT_SIZE
 }	t_result;
-
-typedef enum e_philosopher_stats
-{
-	NUMBER_OF_PHILOSOPHERS=0,
-	TIME_TO_DIE,
-	TIME_TO_EAT,
-	TIME_TO_SLEEP,
-	NUMBER_OF_TIMES_EACH_PHILOSOPHER_MUST_EAT, // [OPTIONAL] STAT
-	STAT_COUNT
-}	t_philosopher_stats;
 
 typedef struct s_num
 {
@@ -97,7 +99,7 @@ char			*t_stat_as_cstr(t_philosopher_stats r);
 char			*t_result_as_cstr(t_result r);
 void			*default_routine(void *index_ptr);
 void			*thread_monitor(void *data);
-void			cluster_init(long *stats);
+int				cluster_init(long *stats);
 void			cluster_free(void);
 void			cluster_start_threads(void *f);
 t_philo_cluster	*cluster_get(void);
@@ -118,6 +120,8 @@ void			philo_think(t_philo *target);
 int				philo_check_hp(void);
 int				philo_is_starved(t_philo *target);
 int				should_sim_stop(void);
-void			init_philosophers(t_philo_cluster *cluster, long *stats);
+int				init_philosophers(t_philo_cluster *cluster, long *stats);
 int				meal_threshhold_reached(t_philo *philo);
+void			stats_copy(long out[STAT_COUNT], long in[STAT_COUNT]);
+void			cluster_print_stats(void);
 #endif // !PHILO_H
