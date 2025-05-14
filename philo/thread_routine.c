@@ -33,10 +33,7 @@ void	*default_routine(void *id_ptr)
 	index = ((*(size_t *)id_ptr)) - 1;
 	target = &all[index];
 	if (index % 2 == 0)
-		sleep_(600);
-	pthread_mutex_lock(&(target->philo_ts_lock));
-	target->last_meal_ts = get_timestamp();
-	pthread_mutex_unlock(&(target->philo_ts_lock));
+		sleep_(50);
 	return (simulation_start(target));
 }
 
@@ -49,5 +46,11 @@ int	philo_is_starved(t_philo *target)
 	last_meal_ts = target->last_meal_ts;
 	pthread_mutex_unlock(&(target->philo_ts_lock));
 	time_to_die = target->configuration[TIME_TO_DIE];
-	return (last_meal_ts != -1 && get_timestamp() - last_meal_ts > time_to_die);
+	if (last_meal_ts == -1)
+		return (get_timestamp() - cluster_get()->ts_start > time_to_die);
+	// pthread_mutex_lock(&cluster_get()->outlock);
+	// printf("Has not ate since: %zu\n", get_timestamp() - last_meal_ts);
+	// printf("Time to die: %zu\n", time_to_die);
+	// pthread_mutex_unlock(&cluster_get()->outlock);
+	return (get_timestamp() - last_meal_ts > time_to_die);
 }

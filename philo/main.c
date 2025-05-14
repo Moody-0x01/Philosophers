@@ -19,7 +19,7 @@ int	main(int ac, char **av)
 	if (!cluster_init(out))
 		return (1);
 	cluster_start_threads(default_routine);
-	cluster_print_stats();
+	// cluster_print_stats();
 	cluster_free();
 	return (0);
 }

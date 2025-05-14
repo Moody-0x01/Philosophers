@@ -14,7 +14,13 @@
 void	*thread_monitor(void *data)
 {
 	(void)data;
-	while (philo_check_hp() || !simulation_ended())
-		sleep_(10);
+	while (1)
+	{
+		usleep(1000);
+		if (simulation_ended())
+			break ;
+		if (!philo_check_hp())
+			break ;
+	}
 	return (NULL);
 }

@@ -44,7 +44,7 @@ int	philo_check_hp(void)
 	index = 0;
 	while (index < count)
 	{
-		if (!philo_check(all + index, &count))
+		if (!philo_check(all + index, &done))
 			return (0);
 		index++;
 	}
@@ -53,5 +53,5 @@ int	philo_check_hp(void)
 		simulation_stop();
 		return (0);
 	}
-	return (done != count);
+	return (1);
 }

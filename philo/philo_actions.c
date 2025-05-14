@@ -62,10 +62,10 @@ void	philo_eat(t_philo *target)
 	printf("%ld %zu is eating\n",
 		(get_timestamp() - cluster->ts_start), target->id);
 	pthread_mutex_unlock(&cluster->outlock);
-	sleep_(target->configuration[TIME_TO_EAT]);
 	pthread_mutex_lock(&target->philo_ts_lock);
 	target->last_meal_ts = get_timestamp();
 	pthread_mutex_unlock(&target->philo_ts_lock);
+	sleep_(target->configuration[TIME_TO_EAT]);
 	release_forks(target);
 	target->meal_count++;
 }
