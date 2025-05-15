@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   thread_monitor.c                                   :+:      :+:    :+:   */
+/*   logger.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lazmoud <lazmoud@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/06 16:01:17 by lazmoud           #+#    #+#             */
-/*   Updated: 2025/05/10 18:59:45 by lazmoud          ###   ########.fr       */
+/*   Created: 2025/05/15 14:54:24 by lazmoud           #+#    #+#             */
+/*   Updated: 2025/05/15 15:13:35 by lazmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <philo.h>
 
-void	*thread_monitor(void *data)
+void	log_action(t_philo *target, const char *action, t_philo_state new)
 {
-	(void)data;
-	while (1)
+	t_philo_cluster	*cluster;
+
+	cluster = cluster_get();
+	pthread_mutex_lock(&cluster->outlock);
+	if (!simulation_ended() || get_philo_state(target) != DEAD)
 	{
-		usleep(500);
-		if (simulation_ended())
-			break ;
-		if (!philo_check_hp())
-			break ;
+		set_philo_state(target, new);
+		printf("%ld %zu %s\n",
+			(get_timestamp() - cluster->ts_start), target->id, action);
 	}
-	return (NULL);
+	pthread_mutex_unlock(&cluster->outlock);
+	// if (new == DEAD)
 }

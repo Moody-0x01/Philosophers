@@ -6,7 +6,7 @@
 /*   By: lazmoud <lazmoud@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 16:47:51 by lazmoud           #+#    #+#             */
-/*   Updated: 2025/05/10 18:15:41 by lazmoud          ###   ########.fr       */
+/*   Updated: 2025/05/15 15:09:15 by lazmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # define BASE_10 "0123456789"
 # define MAX_LONG 9223372036854775807
 
-typedef enum e_state
+typedef enum e_philo_state
 {
 	NONE = 0,
 	EATING,
@@ -124,4 +124,7 @@ int				init_philosophers(t_philo_cluster *cluster, long *stats);
 int				meal_threshhold_reached(t_philo *philo);
 void			stats_copy(long out[STAT_COUNT], long in[STAT_COUNT]);
 void			cluster_print_stats(void);
+t_philo_state	get_philo_state(t_philo *target);
+void			set_philo_state(t_philo *target, t_philo_state s);
+void			log_action(t_philo *target, const char *action, t_philo_state new);
 #endif // !PHILO_H
