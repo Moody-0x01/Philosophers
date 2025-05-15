@@ -22,10 +22,8 @@ long	get_timestamp(void)
 void	sleep_(long ms)
 {
 	long	start_time;
-	long	end_time;
 
 	start_time = get_timestamp();
-	end_time = start_time + ms;
-	while (get_timestamp() < end_time)
-		usleep(100);
+	while (get_timestamp() < start_time + ms)
+		usleep(1000);
 }

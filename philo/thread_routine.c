@@ -48,9 +48,5 @@ int	philo_is_starved(t_philo *target)
 	time_to_die = target->configuration[TIME_TO_DIE];
 	if (last_meal_ts == -1)
 		return (get_timestamp() - cluster_get()->ts_start > time_to_die);
-	// pthread_mutex_lock(&cluster_get()->outlock);
-	// printf("Has not ate since: %zu\n", get_timestamp() - last_meal_ts);
-	// printf("Time to die: %zu\n", time_to_die);
-	// pthread_mutex_unlock(&cluster_get()->outlock);
 	return (get_timestamp() - last_meal_ts > time_to_die);
 }

@@ -10,14 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include <philo.h>
+t_philo_state	get_philo_state(t_philo *target);
+void			set_philo_state(t_philo *target, t_philo_state s);
 
 void	philo_kill(t_philo *target)
 {
-	pthread_mutex_lock(&(target->philo_state_lock));
-	if (simulation_ended() || target->state == DEAD)
+	if (simulation_ended() || get_philo_state(target) == DEAD)
 		return ;
-	target->state = DEAD;
-	pthread_mutex_unlock(&(target->philo_state_lock));
+	set_philo_state(target, DEAD);
 	simulation_stop();
 	pthread_mutex_lock(&cluster_get()->outlock);
 	printf("%ld %zu died\n",
@@ -29,11 +29,9 @@ void	philo_think(t_philo *target)
 {
 	t_philo_cluster	*cluster;
 
-	pthread_mutex_lock(&(target->philo_state_lock));
-	if (simulation_ended() || target->state == DEAD)
+	if (simulation_ended() || get_philo_state(target) == DEAD)
 		return ;
-	target->state = THINKING;
-	pthread_mutex_unlock(&(target->philo_state_lock));
+	set_philo_state(target, THINKING);
 	cluster = cluster_get();
 	pthread_mutex_lock(&cluster->outlock);
 	printf("%ld %zu is thinking\n",
@@ -46,18 +44,15 @@ void	philo_eat(t_philo *target)
 	t_philo_cluster	*cluster;
 
 	cluster = cluster_get();
-	pthread_mutex_lock(&(target->philo_state_lock));
-	if (simulation_ended() || target->state == DEAD)
+	if (simulation_ended() || get_philo_state(target) == DEAD)
 		return ;
-	target->state = EATING;
-	pthread_mutex_unlock(&(target->philo_state_lock));
-	take_forks(target);
 	if (cluster->count == 1)
 	{
-		release_forks(target);
 		philo_kill(target);
 		return ;
 	}
+	set_philo_state(target, EATING);
+	take_forks(target);
 	pthread_mutex_lock(&cluster->outlock);
 	printf("%ld %zu is eating\n",
 		(get_timestamp() - cluster->ts_start), target->id);
@@ -74,11 +69,9 @@ void	philo_sleep(t_philo *target)
 {
 	t_philo_cluster	*cluster;
 
-	pthread_mutex_lock(&(target->philo_state_lock));
-	if (simulation_ended() || target->state == DEAD)
+	if (simulation_ended() || get_philo_state(target) == DEAD)
 		return ;
-	target->state = SLEEPING;
-	pthread_mutex_unlock(&(target->philo_state_lock));
+	set_philo_state(target, SLEEPING);
 	cluster = cluster_get();
 	pthread_mutex_lock(&cluster->outlock);
 	printf("%ld %zu is sleeping\n",

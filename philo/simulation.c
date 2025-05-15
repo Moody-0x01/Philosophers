@@ -24,14 +24,11 @@ void	*simulation_start(t_philo *target)
 	{
 		philo_think(target);
 		philo_eat(target);
-		pthread_mutex_lock(&target->philo_state_lock);
 		if (meal_threshhold_reached(target))
 		{
-			target->state = DONE_;
-			pthread_mutex_unlock(&target->philo_state_lock);
+			set_philo_state(target, DONE_);
 			break ;
 		}
-		pthread_mutex_unlock(&target->philo_state_lock);
 		philo_sleep(target);
 	}
 	return (NULL);

@@ -1,4 +1,8 @@
 /* ************************************************************************** */
+	// pthread_mutex_lock(&cluster_get()->outlock);
+	// printf("Has not ate since: %zu\n", get_timestamp() - last_meal_ts);
+	// printf("Time to die: %zu\n", time_to_die);
+	// pthread_mutex_unlock(&cluster_get()->outlock);
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   philo_health.c                                     :+:      :+:    :+:   */
