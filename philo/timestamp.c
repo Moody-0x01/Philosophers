@@ -24,8 +24,17 @@ void	sleep_(long ms)
 	long	start_time;
 	long	end_time;
 
+	pthread_mutex_lock(&cluster_get()->outlock);
+	printf("Sleep . ms = %ld\n", ms);
+	pthread_mutex_unlock(&cluster_get()->outlock);
 	start_time = get_timestamp();
-	end_time = start_time + ms;
-	while (get_timestamp() < end_time)
-		usleep(100);
+	end_time = (start_time + ms);
+	while (1)
+	{
+		if (get_timestamp() >= end_time)
+			break ;
+		if (simulation_ended())
+			break ;
+		usleep(50);
+	}
 }
