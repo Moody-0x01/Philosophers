@@ -16,7 +16,7 @@ void	*thread_monitor(void *data)
 	(void)data;
 	while (1)
 	{
-		usleep(500);
+		sleep_(2);
 		if (simulation_ended())
 			break ;
 		if (!philo_check_hp())

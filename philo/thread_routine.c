@@ -35,7 +35,7 @@ void	*default_routine(void *id_ptr)
 	index = ((*(size_t *)id_ptr)) - 1;
 	target = &all[index];
 	if (index % 2 != 0)
-		sleep_(50);
+		usleep(500);
 	return (simulation_start(target));
 }
 
