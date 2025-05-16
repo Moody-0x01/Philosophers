@@ -35,7 +35,9 @@ void	philo_eat(t_philo *target)
 	pthread_mutex_unlock(&target->philo_ts_lock);
 	sleep_(target->configuration[TIME_TO_EAT]);
 	release_forks(target);
+	pthread_mutex_lock(&target->meal_count_lock);
 	target->meal_count++;
+	pthread_mutex_unlock(&target->meal_count_lock);
 }
 
 void	philo_sleep(t_philo *target)

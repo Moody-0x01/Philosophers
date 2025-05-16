@@ -6,7 +6,7 @@
 /*   By: lazmoud <lazmoud@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 15:02:47 by lazmoud           #+#    #+#             */
-/*   Updated: 2025/05/10 18:14:30 by lazmoud          ###   ########.fr       */
+/*   Updated: 2025/05/16 15:40:11 by lazmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <philo.h>
@@ -57,28 +57,4 @@ void	stats_copy(long out[STAT_COUNT], long in[STAT_COUNT])
 		out[i] = in[i];
 		i++;
 	}
-}
-
-char	*t_result_as_cstr(t_result r)
-{
-	char	*rs[RESULT_SIZE];
-
-	rs[DONE] = "DONE";
-	rs[SUCCESS] = "SUCCESS";
-	rs[NAN] = "NAN";
-	rs[OVER_FLOW_DETECTED] = "OVER_FLOW_DETECTED";
-	return (rs[r]);
-}
-
-char	*t_stat_as_cstr(t_philosopher_stats r)
-{
-	char	*rs[STAT_COUNT];
-
-	rs[NUMBER_OF_PHILOSOPHERS] = "NUMBER_OF_PHILOSOPHERS";
-	rs[TIME_TO_DIE] = "TIME_TO_DIE";
-	rs[TIME_TO_EAT] = "TIME_TO_EAT";
-	rs[TIME_TO_SLEEP] = "TIME_TO_SLEEP";
-	rs[NUMBER_OF_TIMES_EACH_PHILOSOPHER_MUST_EAT] = "NUMBER_OF_"
-		"TIMES_EACH_PHILOSOPHER_MUST_EAT";
-	return (rs[r]);
 }

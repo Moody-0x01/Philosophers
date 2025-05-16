@@ -1,6 +1,8 @@
 ./philo/philo
 /philo/philo
 philo/philo
+./tests
+tests
 # Prerequisites
 *.d
 

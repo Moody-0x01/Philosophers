@@ -1,12 +1,12 @@
 LIB_PHILO=./libphilo.a
 PHILO_MAIN=./main.c
-SRCS=atol.c ft_isspace.c ft_strlen.c philo_cluster.c stats.c thread_routine.c philo_methods.c timestamp.c philo_actions.c thread_monitor.c philo_health.c simulation.c logger.c
+SRCS=atol.c ft_isspace.c ft_strlen.c philo_cluster.c stats.c thread_routine.c philo_methods.c timestamp.c philo_actions.c thread_monitor.c philo_health.c simulation.c logger.c philo_cluster_init.c
 OBJS=$(SRCS:%.c=%.o)
 NAME=./philo
 CC=cc
 LIBS=-L. -lphilo -pthread
 INCLUDE=-I./include
-CFLAGS=-Wall -Wextra -Werror $(INCLUDE) -ggdb -g # -fsanitize=address 
+CFLAGS=-Wall -Wextra -Werror $(INCLUDE)
 AR=ar rsc
 RM=rm -f
 

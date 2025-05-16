@@ -13,14 +13,16 @@
 
 int	meal_threshhold_reached(t_philo *philo)
 {
-	long	count;
+	long	cond;
 	long	threshh;
 
 	threshh = philo->configuration[NUMBER_OF_TIMES_EACH_PHILOSOPHER_MUST_EAT];
-	count = philo->meal_count;
 	if (threshh == -1)
 		return (0);
-	return (count >= threshh);
+	pthread_mutex_lock(&target->meal_count_lock);
+	cond = (philo->meal_count >= threshh);
+	pthread_mutex_unlock(&target->meal_count_lock);
+	return (cond);
 }
 
 void	*default_routine(void *id_ptr)

@@ -6,7 +6,7 @@
 /*   By: lazmoud <lazmoud@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 16:47:51 by lazmoud           #+#    #+#             */
-/*   Updated: 2025/05/15 15:09:15 by lazmoud          ###   ########.fr       */
+/*   Updated: 2025/05/16 15:48:09 by lazmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_philo
 	t_philo_state	state;
 	pthread_mutex_t	philo_state_lock;
 	pthread_mutex_t	philo_ts_lock;
+	pthread_mutex_t	meal_count_lock;
 	long			configuration[STAT_COUNT];
 	size_t			id;
 	size_t			lfork;
@@ -126,6 +127,9 @@ void			stats_copy(long out[STAT_COUNT], long in[STAT_COUNT]);
 void			cluster_print_stats(void);
 t_philo_state	get_philo_state(t_philo *target);
 void			set_philo_state(t_philo *target, t_philo_state s);
-void			log_action(t_philo *target, const char *action, t_philo_state new);
+void			log_action(t_philo *target,
+					const char *action, t_philo_state new);
 int				set_if(t_philo *target, t_philo_state s);
+int				init_philosopher_state(t_philo_cluster *cluster, long *stats);
+int				init_philosopher_mtxs(t_philo_cluster *cluster);
 #endif // !PHILO_H

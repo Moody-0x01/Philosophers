@@ -6,7 +6,7 @@
 /*   By: lazmoud <lazmoud@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 18:35:47 by lazmoud           #+#    #+#             */
-/*   Updated: 2025/05/06 16:09:12 by lazmoud          ###   ########.fr       */
+/*   Updated: 2025/05/16 15:44:15 by lazmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <philo.h>
@@ -57,23 +57,6 @@ void	release_forks(t_philo *target)
 	}
 	pthread_mutex_unlock(get_fork(target->rfork));
 	pthread_mutex_unlock(get_fork(target->lfork));
-}
-
-t_philo_state	get_philo_state(t_philo *target)
-{
-	t_philo_state	s;
-
-	pthread_mutex_lock(&(target->philo_state_lock));
-	s = target->state;
-	pthread_mutex_unlock(&(target->philo_state_lock));
-	return (s);
-}
-
-void	set_philo_state(t_philo *target, t_philo_state s)
-{
-	pthread_mutex_lock(&(target->philo_state_lock));
-	target->state = s;
-	pthread_mutex_unlock(&(target->philo_state_lock));
 }
 
 int	set_if(t_philo *target, t_philo_state s)
