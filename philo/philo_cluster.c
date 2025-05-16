@@ -78,7 +78,7 @@ void	cluster_free(void)
 		pthread_mutex_destroy(cluster->forks + i);
 		pthread_mutex_destroy(&(cluster->philos + i)->philo_state_lock);
 		pthread_mutex_destroy(&(cluster->philos + i)->philo_ts_lock);
-		pthread_mutex_destroy(&(cluster->philos[cluster->count]
+		pthread_mutex_destroy(&(cluster->philos[i]
 				.meal_count_lock));
 		i++;
 	}

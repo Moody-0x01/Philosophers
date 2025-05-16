@@ -19,6 +19,7 @@ void	philo_kill(t_philo *target)
 void	philo_think(t_philo *target)
 {
 	log_action(target, "is thinking", THINKING);
+	sleep_(1);
 }
 
 void	philo_eat(t_philo *target)

@@ -19,9 +19,9 @@ int	meal_threshhold_reached(t_philo *philo)
 	threshh = philo->configuration[NUMBER_OF_TIMES_EACH_PHILOSOPHER_MUST_EAT];
 	if (threshh == -1)
 		return (0);
-	pthread_mutex_lock(&target->meal_count_lock);
+	pthread_mutex_lock(&philo->meal_count_lock);
 	cond = (philo->meal_count >= threshh);
-	pthread_mutex_unlock(&target->meal_count_lock);
+	pthread_mutex_unlock(&philo->meal_count_lock);
 	return (cond);
 }
 
@@ -34,11 +34,8 @@ void	*default_routine(void *id_ptr)
 	all = cluster_get()->philos;
 	index = ((*(size_t *)id_ptr)) - 1;
 	target = &all[index];
-	if (index % 2 == 0)
+	if (index % 2 != 0)
 		sleep_(50);
-	pthread_mutex_lock(&target->philo_ts_lock);
-	target->last_meal_ts = get_timestamp();
-	pthread_mutex_unlock(&target->philo_ts_lock);
 	return (simulation_start(target));
 }
 
