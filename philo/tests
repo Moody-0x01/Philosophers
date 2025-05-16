@@ -1,6 +1,6 @@
 ./philo 2 310 200 100: No One should die.
 ./philo 200 120 60 60: No one should die.
 ./philo 199 180 60 60: No one should die.
-./philo 4 120 60 60: No one should die
-./philo 3 180 60 60: No one should die
-./philo 3 180 60 60: No one should die
+./philo 4 120 60 60:   No one should die.
+./philo 3 180 60 60:   No one should die.
+./philo 3 180 60 60:   No one should die.

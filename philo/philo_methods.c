@@ -78,3 +78,18 @@ void	set_philo_state(t_philo *target, t_philo_state s)
 	target->state = s;
 	pthread_mutex_unlock(&(target->philo_state_lock));
 }
+
+int	set_if(t_philo *target, t_philo_state s)
+{
+	int	set;
+
+	set = 0;
+	pthread_mutex_lock(&(target->philo_state_lock));
+	if (!simulation_ended() || target->state != DEAD)
+	{
+		target->state = s;
+		set = 1;
+	}
+	pthread_mutex_unlock(&(target->philo_state_lock));
+	return (set);
+}

@@ -127,4 +127,5 @@ void			cluster_print_stats(void);
 t_philo_state	get_philo_state(t_philo *target);
 void			set_philo_state(t_philo *target, t_philo_state s);
 void			log_action(t_philo *target, const char *action, t_philo_state new);
+int				set_if(t_philo *target, t_philo_state s);
 #endif // !PHILO_H

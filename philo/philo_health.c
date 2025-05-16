@@ -17,22 +17,20 @@
 
 int	philo_check(t_philo *target, size_t *done)
 {
-	t_philo_state	state;
-
 	pthread_mutex_lock(&(target->philo_state_lock));
-	state = target->state;
-	pthread_mutex_unlock(&(target->philo_state_lock));
-	if (state == DONE_)
+	if (target->state == DONE_)
 		(*done)++;
-	else if (state != EATING)
+	else if (target->state != EATING)
 	{
 		if (philo_is_starved(target))
 		{
+			pthread_mutex_unlock(&(target->philo_state_lock));
 			philo_kill(target);
 			simulation_stop();
 			return (0);
 		}
 	}
+	pthread_mutex_unlock(&(target->philo_state_lock));
 	return (1);
 }
 

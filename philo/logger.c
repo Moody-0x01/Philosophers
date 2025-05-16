@@ -17,12 +17,10 @@ void	log_action(t_philo *target, const char *action, t_philo_state new)
 
 	cluster = cluster_get();
 	pthread_mutex_lock(&cluster->outlock);
-	if (!simulation_ended() || get_philo_state(target) != DEAD)
+	if (set_if(target, new))
 	{
-		set_philo_state(target, new);
 		printf("%ld %zu %s\n",
 			(get_timestamp() - cluster->ts_start), target->id, action);
 	}
 	pthread_mutex_unlock(&cluster->outlock);
-	// if (new == DEAD)
 }
