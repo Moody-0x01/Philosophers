@@ -34,19 +34,23 @@ void	*default_routine(void *id_ptr)
 	target = &all[index];
 	if (index % 2 == 0)
 		sleep_(50);
+	pthread_mutex_lock(&target->philo_ts_lock);
+	target->last_meal_ts = get_timestamp();
+	pthread_mutex_unlock(&target->philo_ts_lock);
 	return (simulation_start(target));
 }
 
 int	philo_is_starved(t_philo *target)
 {
-	long	last_meal_ts;
+	long	has_not_eaten_since;
 	long	time_to_die;
 
 	pthread_mutex_lock(&(target->philo_ts_lock));
-	last_meal_ts = target->last_meal_ts;
-	pthread_mutex_unlock(&(target->philo_ts_lock));
 	time_to_die = target->configuration[TIME_TO_DIE];
-	if (last_meal_ts == -1)
-		return (get_timestamp() - cluster_get()->ts_start > time_to_die);
-	return (get_timestamp() - last_meal_ts > time_to_die);
+	if (target->last_meal_ts == -1)
+		has_not_eaten_since = (get_timestamp() - cluster_get()->ts_start);
+	else
+		has_not_eaten_since = (get_timestamp() - target->last_meal_ts);
+	pthread_mutex_unlock(&(target->philo_ts_lock));
+	return (has_not_eaten_since > time_to_die);
 }

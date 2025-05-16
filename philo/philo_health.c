@@ -26,7 +26,6 @@ int	philo_check(t_philo *target, size_t *done)
 		{
 			pthread_mutex_unlock(&(target->philo_state_lock));
 			philo_kill(target);
-			simulation_stop();
 			return (0);
 		}
 	}

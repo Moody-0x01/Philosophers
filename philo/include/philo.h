@@ -29,7 +29,7 @@ typedef enum e_philo_state
 	THINKING,
 	SLEEPING,
 	DONE_,
-	DEAD,
+	FORK_TAKE,
 	SCOUNT
 }	t_philo_state;
 

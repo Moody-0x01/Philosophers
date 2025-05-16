@@ -17,10 +17,7 @@ static void	__take_fork(pthread_mutex_t	*fork, size_t id)
 
 	cluster = cluster_get();
 	pthread_mutex_lock(fork);
-	pthread_mutex_lock(&cluster->outlock);
-	printf("%ld %zu has taken a fork\n",
-		(get_timestamp() - cluster->ts_start), id);
-	pthread_mutex_unlock(&cluster->outlock);
+	log_action(&cluster->philos[id - 1], "has taken a fork", FORK_TAKE);
 }
 
 pthread_mutex_t	*get_fork(size_t i)
@@ -85,7 +82,7 @@ int	set_if(t_philo *target, t_philo_state s)
 
 	set = 0;
 	pthread_mutex_lock(&(target->philo_state_lock));
-	if (!simulation_ended() || target->state != DEAD)
+	if (!simulation_ended())
 	{
 		target->state = s;
 		set = 1;

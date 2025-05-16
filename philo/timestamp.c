@@ -32,6 +32,6 @@ void	sleep_(long ms)
 			break ;
 		if (simulation_ended())
 			break ;
-		usleep(50);
+		usleep(1000);
 	}
 }

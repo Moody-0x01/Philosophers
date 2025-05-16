@@ -17,10 +17,18 @@ void	log_action(t_philo *target, const char *action, t_philo_state new)
 
 	cluster = cluster_get();
 	pthread_mutex_lock(&cluster->outlock);
-	if (set_if(target, new))
+	if (new == FORK_TAKE)
+	{
+		if (!simulation_ended())
+			printf("%ld %zu %s\n",
+				(get_timestamp() - cluster->ts_start), target->id, action);
+	}
+	else if (set_if(target, new))
 	{
 		printf("%ld %zu %s\n",
 			(get_timestamp() - cluster->ts_start), target->id, action);
+		if (new == NONE)
+			simulation_stop();
 	}
 	pthread_mutex_unlock(&cluster->outlock);
 }

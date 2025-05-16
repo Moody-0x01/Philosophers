@@ -159,7 +159,7 @@ char	*str_state(t_philo_state r)
 	rs[THINKING] = "Bro is THINKING";
 	rs[SLEEPING] = "Bro is SLEEPING";
 	rs[DONE_] = "Bro is DONE_";
-	rs[DEAD] = "Bro is DEAD";
+	rs[FORK_TAKE] = "Bro is Taking a fork";
 
 	return (rs[r]);
 }

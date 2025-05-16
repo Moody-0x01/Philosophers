@@ -13,27 +13,20 @@
 
 void	philo_kill(t_philo *target)
 {
-	if (simulation_ended() || get_philo_state(target) == DEAD)
-		return ;
-	log_action(target, "died", DEAD);
+	log_action(target, "died", NONE);
 }
 
 void	philo_think(t_philo *target)
 {
-	if (simulation_ended() || get_philo_state(target) == DEAD)
-		return ;
 	log_action(target, "is thinking", THINKING);
 }
 
 void	philo_eat(t_philo *target)
 {
-	if (simulation_ended() || get_philo_state(target) == DEAD)
-		return ;
 	take_forks(target);
 	if (cluster_get()->count == 1)
 	{
 		philo_kill(target);
-		simulation_stop();
 		return ;
 	}
 	log_action(target, "is eating", EATING);
@@ -47,8 +40,6 @@ void	philo_eat(t_philo *target)
 
 void	philo_sleep(t_philo *target)
 {
-	if (simulation_ended() || get_philo_state(target) == DEAD)
-		return ;
 	log_action(target, "is sleeping", SLEEPING);
 	sleep_(target->configuration[TIME_TO_SLEEP]);
 }
