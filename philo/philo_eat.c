@@ -11,38 +11,22 @@
 /* ************************************************************************** */
 #include <philo.h>
 
-void	philo_kill(t_philo *target)
-{
-	log_action(target, "died", NONE);
-}
-
-void	philo_think(t_philo *target)
-{
-	log_action(target, "is thinking", THINKING);
-	sleep_(1);
-}
-
 void	philo_eat(t_philo *target)
 {
 	take_forks(target);
 	if (cluster_get()->count == 1)
 	{
-		philo_kill(target);
+		release_forks(target);
+		log_action(target, "died", NONE);
 		return ;
 	}
-	log_action(target, "is eating", EATING);
 	pthread_mutex_lock(&target->philo_ts_lock);
 	target->last_meal_ts = get_timestamp();
 	pthread_mutex_unlock(&target->philo_ts_lock);
+	log_action(target, "is eating", EATING);
 	sleep_(target->configuration[TIME_TO_EAT]);
 	release_forks(target);
 	pthread_mutex_lock(&target->meal_count_lock);
 	target->meal_count++;
 	pthread_mutex_unlock(&target->meal_count_lock);
-}
-
-void	philo_sleep(t_philo *target)
-{
-	log_action(target, "is sleeping", SLEEPING);
-	sleep_(target->configuration[TIME_TO_SLEEP]);
 }

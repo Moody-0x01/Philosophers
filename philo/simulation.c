@@ -20,19 +20,23 @@ void	simulation_stop(void)
 
 void	*simulation_start(t_philo *target)
 {
+	if ((target->id - 1) % 2 == 0)
+		usleep(500);
 	pthread_mutex_lock(&target->philo_ts_lock);
 	target->last_meal_ts = get_timestamp();
 	pthread_mutex_unlock(&target->philo_ts_lock);
 	while (!simulation_ended())
 	{
 		philo_eat(target);
-		philo_sleep(target);
-		philo_think(target);
 		if (meal_threshhold_reached(target))
 		{
 			set_if(target, DONE_);
 			break ;
 		}
+		log_action(target, "is sleeping", SLEEPING);
+		sleep_(target->configuration[TIME_TO_SLEEP]);
+		log_action(target, "is thinking", THINKING);
+		sleep_((get_has_not_eaten_since(target) - target->configuration[TIME_TO_DIE]) * 0.1);
 	}
 	return (NULL);
 }

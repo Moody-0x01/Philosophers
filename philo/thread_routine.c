@@ -34,22 +34,23 @@ void	*default_routine(void *id_ptr)
 	all = cluster_get()->philos;
 	index = ((*(size_t *)id_ptr)) - 1;
 	target = &all[index];
-	if (index % 2 != 0)
-		usleep(500);
 	return (simulation_start(target));
 }
 
-int	philo_is_starved(t_philo *target)
+long	get_has_not_eaten_since(t_philo *target)
 {
 	long	has_not_eaten_since;
-	long	time_to_die;
 
 	pthread_mutex_lock(&(target->philo_ts_lock));
-	time_to_die = target->configuration[TIME_TO_DIE];
 	if (target->last_meal_ts == -1)
 		has_not_eaten_since = (get_timestamp() - cluster_get()->ts_start);
 	else
 		has_not_eaten_since = (get_timestamp() - target->last_meal_ts);
 	pthread_mutex_unlock(&(target->philo_ts_lock));
-	return (has_not_eaten_since > time_to_die);
+	return (has_not_eaten_since);
+}
+
+int	philo_is_starved(t_philo *target)
+{
+	return (get_has_not_eaten_since(target) > target->configuration[TIME_TO_DIE]);
 }

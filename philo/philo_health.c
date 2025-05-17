@@ -21,7 +21,7 @@ int	philo_check(t_philo *target, size_t *done)
 		if (philo_is_starved(target))
 		{
 			pthread_mutex_unlock(&(target->philo_state_lock));
-			philo_kill(target);
+			log_action(target, "died", NONE);
 			return (0);
 		}
 	}

@@ -132,4 +132,5 @@ void			log_action(t_philo *target,
 int				set_if(t_philo *target, t_philo_state s);
 int				init_philosopher_state(t_philo_cluster *cluster, long *stats);
 int				init_philosopher_mtxs(t_philo_cluster *cluster);
+long			get_has_not_eaten_since(t_philo *target);
 #endif // !PHILO_H

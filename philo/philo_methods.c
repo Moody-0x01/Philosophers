@@ -20,43 +20,38 @@ static void	__take_fork(pthread_mutex_t	*fork, size_t id)
 	log_action(&cluster->philos[id - 1], "has taken a fork", FORK_TAKE);
 }
 
-pthread_mutex_t	*get_fork(size_t i)
+void take_forks(t_philo *target)
 {
-	return (cluster_get()->forks + i);
-}
-
-void	take_forks(t_philo *target)
-{
-	if (target->lfork == target->rfork)
-	{
-		__take_fork(get_fork(target->lfork), target->id);
+    if (target->lfork == target->rfork)
+    {
+        __take_fork(cluster_get()->forks + target->lfork, target->id);
+        return;
+    }
+    if (target->lfork < target->rfork)
+    {
+        __take_fork(cluster_get()->forks + target->lfork, target->id);
+        __take_fork(cluster_get()->forks + target->rfork, target->id);
 		return ;
-	}
-	if (target->lfork < target->rfork)
-	{
-		__take_fork(get_fork(target->lfork), target->id);
-		__take_fork(get_fork(target->rfork), target->id);
-		return ;
-	}
-	__take_fork(get_fork(target->rfork), target->id);
-	__take_fork(get_fork(target->lfork), target->id);
+    }
+	__take_fork(cluster_get()->forks + target->rfork, target->id);
+	__take_fork(cluster_get()->forks + target->lfork, target->id);
 }
 
 void	release_forks(t_philo *target)
 {
 	if (target->lfork == target->rfork)
 	{
-		pthread_mutex_unlock(get_fork(target->lfork));
+		pthread_mutex_unlock(cluster_get()->forks + target->lfork);
 		return ;
 	}
 	if (target->lfork < target->rfork)
 	{
-		pthread_mutex_unlock(get_fork(target->lfork));
-		pthread_mutex_unlock(get_fork(target->rfork));
+		pthread_mutex_unlock(cluster_get()->forks + target->lfork);
+		pthread_mutex_unlock(cluster_get()->forks + target->rfork);
 		return ;
 	}
-	pthread_mutex_unlock(get_fork(target->rfork));
-	pthread_mutex_unlock(get_fork(target->lfork));
+	pthread_mutex_unlock(cluster_get()->forks + target->rfork);
+	pthread_mutex_unlock(cluster_get()->forks + target->lfork);
 }
 
 int	set_if(t_philo *target, t_philo_state s)
