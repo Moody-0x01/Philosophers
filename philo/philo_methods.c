@@ -6,7 +6,7 @@
 /*   By: lazmoud <lazmoud@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 18:35:47 by lazmoud           #+#    #+#             */
-/*   Updated: 2025/05/16 15:44:15 by lazmoud          ###   ########.fr       */
+/*   Updated: 2025/05/17 17:37:43 by lazmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <philo.h>
@@ -20,19 +20,19 @@ static void	__take_fork(pthread_mutex_t	*fork, size_t id)
 	log_action(&cluster->philos[id - 1], "has taken a fork", FORK_TAKE);
 }
 
-void take_forks(t_philo *target)
+void	take_forks(t_philo *target)
 {
-    if (target->lfork == target->rfork)
-    {
-        __take_fork(cluster_get()->forks + target->lfork, target->id);
-        return;
-    }
-    if (target->lfork < target->rfork)
-    {
-        __take_fork(cluster_get()->forks + target->lfork, target->id);
-        __take_fork(cluster_get()->forks + target->rfork, target->id);
+	if (target->lfork == target->rfork)
+	{
+		__take_fork(cluster_get()->forks + target->lfork, target->id);
 		return ;
-    }
+	}
+	if (target->lfork < target->rfork)
+	{
+		__take_fork(cluster_get()->forks + target->lfork, target->id);
+		__take_fork(cluster_get()->forks + target->rfork, target->id);
+		return ;
+	}
 	__take_fork(cluster_get()->forks + target->rfork, target->id);
 	__take_fork(cluster_get()->forks + target->lfork, target->id);
 }

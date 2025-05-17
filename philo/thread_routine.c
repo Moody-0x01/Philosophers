@@ -6,7 +6,7 @@
 /*   By: lazmoud <lazmoud@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 15:05:15 by lazmoud           #+#    #+#             */
-/*   Updated: 2025/05/10 18:08:12 by lazmoud          ###   ########.fr       */
+/*   Updated: 2025/05/17 17:41:12 by lazmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <philo.h>
@@ -52,5 +52,8 @@ long	get_has_not_eaten_since(t_philo *target)
 
 int	philo_is_starved(t_philo *target)
 {
-	return (get_has_not_eaten_since(target) > target->configuration[TIME_TO_DIE]);
+	long	t;
+
+	t = target->configuration[TIME_TO_DIE];
+	return (get_has_not_eaten_since(target) > t);
 }
