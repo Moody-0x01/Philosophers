@@ -25,6 +25,26 @@ static void	invalid_args(const char *program, const char *reason)
 	exit(1);
 }
 
+void	validate_stat(t_result res, char *program, char *arg, long out)
+{
+	if (res == NAN)
+	{
+		printf("`%s` is Not a number\n", arg);
+		invalid_args(program, "Only numeric arguments are allowed\n");
+	}
+	if (res == OVER_FLOW_DETECTED || out > INT_MAX || out < INT_MIN)
+	{
+		printf("`%s` overflew\n", arg);
+		invalid_args(program, "please use a reasonable number,"
+			" which does not overflow an int type\n");
+	}
+	if (out < 0)
+	{
+		printf("`%s` is not a valid number\n", arg);
+		invalid_args(program, "please use a positive number\n");
+	}
+}
+
 void	parse_stats(int ac, char **av, long out[STAT_COUNT])
 {
 	t_result		res;
@@ -38,11 +58,7 @@ void	parse_stats(int ac, char **av, long out[STAT_COUNT])
 	while (i + 1 < ac && i <= NUMBER_OF_TIMES_EACH_PHILOSOPHER_MUST_EAT)
 	{
 		res = ft_atol_base(av[i + 1], BASE_10, (out + i));
-		if (res == NAN)
-		{
-			printf("`%s` is Not a number\n", av[i + 1]);
-			invalid_args(av[0], "Only numeric arguments are allowed\n");
-		}
+		validate_stat(res, av[0], av[i + 1], out[i]);
 		i++;
 	}
 }

@@ -13,6 +13,7 @@
 #ifndef PHILO_H
 # define PHILO_H
 # include <unistd.h>
+# include <limits.h>
 # include <sys/time.h>
 # include <pthread.h>
 # include <string.h>
