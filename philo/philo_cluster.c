@@ -6,7 +6,7 @@
 /*   By: lazmoud <lazmoud@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:38:44 by lazmoud           #+#    #+#             */
-/*   Updated: 2025/05/16 15:38:20 by lazmoud          ###   ########.fr       */
+/*   Updated: 2025/05/18 18:52:15 by lazmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <philo.h>
@@ -95,27 +95,27 @@ void	cluster_free(void)
 void	cluster_start_threads(void *f)
 {
 	t_philo_cluster	*cluster;
-	size_t			i;
+	size_t			created;
+	size_t			index;
 
 	cluster = cluster_get();
 	cluster->ts_start = get_timestamp();
-	i = 0;
-	while (i < cluster->count)
+	created = 0;
+	index = 0;
+	while (created < cluster->count)
 	{
-		pthread_create(cluster->threads + i,
-			NULL,
-			f, &((cluster->philos + i)->id));
-		i++;
+		if (!philo_thread_create(cluster->threads + created,
+				&((cluster->philos + created)->id), f))
+		{
+			simulation_stop();
+			break ;
+		}
+		created++;
 	}
-	pthread_create(cluster->threads + cluster->count,
-		NULL,
-		thread_monitor,
-		NULL);
-	i = 0;
-	while (i < cluster->count)
-	{
-		pthread_join(cluster->threads[i], NULL);
-		i++;
-	}
-	pthread_join(cluster->threads[i], NULL);
+	if (!philo_thread_create(cluster->threads + created, NULL, thread_monitor))
+		simulation_stop();
+	else
+		created++;
+	while (index < created)
+		pthread_join(cluster->threads[index++], NULL);
 }

@@ -1,25 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   philo_pthread.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lazmoud <lazmoud@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/02 16:46:42 by lazmoud           #+#    #+#             */
-/*   Updated: 2025/05/16 15:42:28 by lazmoud          ###   ########.fr       */
+/*   Created: 2025/05/18 18:51:16 by lazmoud           #+#    #+#             */
+/*   Updated: 2025/05/18 18:52:22 by lazmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <philo.h>
 
-int	main(int ac, char **av)
+bool	philo_thread_create(pthread_t *t, size_t *id, void *f)
 {
-	long		out[STAT_COUNT];
-
-	if (!parse_stats(ac, av, out))
-		return (1);
-	if (!cluster_init(out))
-		return (1);
-	cluster_start_threads(default_routine);
-	cluster_free();
-	return (0);
+	return (pthread_create(t, NULL, f, id) == 0);
 }

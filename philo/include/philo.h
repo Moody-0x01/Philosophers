@@ -6,7 +6,7 @@
 /*   By: lazmoud <lazmoud@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 16:47:51 by lazmoud           #+#    #+#             */
-/*   Updated: 2025/05/17 17:35:48 by lazmoud          ###   ########.fr       */
+/*   Updated: 2025/05/18 18:52:46 by lazmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <stdbool.h>
 # define BASE_10 "0123456789"
 # define MAX_LONG 9223372036854775807
 
@@ -96,7 +97,7 @@ typedef struct s_num
 int				ft_isspace(int c);
 size_t			ft_strlen(char *s);
 t_result		ft_atol_base(const char *str, const char *base, long *where);
-void			parse_stats(int ac, char **av, long out[STAT_COUNT]);
+bool			parse_stats(int ac, char **av, long out[STAT_COUNT]);
 char			*t_stat_as_cstr(t_philosopher_stats r);
 char			*t_result_as_cstr(t_result r);
 void			*default_routine(void *index_ptr);
@@ -134,4 +135,5 @@ int				set_if(t_philo *target, t_philo_state s);
 int				init_philosopher_state(t_philo_cluster *cluster, long *stats);
 int				init_philosopher_mtxs(t_philo_cluster *cluster);
 long			get_has_not_eaten_since(t_philo *target);
+bool			philo_thread_create(pthread_t *t, size_t *id, void *f);
 #endif // !PHILO_H
