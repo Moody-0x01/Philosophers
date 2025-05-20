@@ -6,7 +6,7 @@
 /*   By: lazmoud <lazmoud@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 16:47:51 by lazmoud           #+#    #+#             */
-/*   Updated: 2025/05/18 18:52:46 by lazmoud          ###   ########.fr       */
+/*   Updated: 2025/05/20 10:23:44 by lazmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <stdbool.h>
+
 # define BASE_10 "0123456789"
 # define MAX_LONG 9223372036854775807
 
@@ -136,4 +137,6 @@ int				init_philosopher_state(t_philo_cluster *cluster, long *stats);
 int				init_philosopher_mtxs(t_philo_cluster *cluster);
 long			get_has_not_eaten_since(t_philo *target);
 bool			philo_thread_create(pthread_t *t, size_t *id, void *f);
+bool			philo_mutex_init(pthread_mutex_t *m);
+void			*xmalloc(size_t nbytes);
 #endif // !PHILO_H

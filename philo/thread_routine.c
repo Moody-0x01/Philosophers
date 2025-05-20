@@ -6,7 +6,7 @@
 /*   By: lazmoud <lazmoud@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 15:05:15 by lazmoud           #+#    #+#             */
-/*   Updated: 2025/05/17 17:41:12 by lazmoud          ###   ########.fr       */
+/*   Updated: 2025/05/20 10:14:33 by lazmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <philo.h>
@@ -34,6 +34,8 @@ void	*default_routine(void *id_ptr)
 	all = cluster_get()->philos;
 	index = ((*(size_t *)id_ptr)) - 1;
 	target = &all[index];
+	if (simulation_ended())
+		return (NULL);
 	return (simulation_start(target));
 }
 

@@ -6,7 +6,7 @@
 /*   By: lazmoud <lazmoud@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 14:38:44 by lazmoud           #+#    #+#             */
-/*   Updated: 2025/05/18 18:52:15 by lazmoud          ###   ########.fr       */
+/*   Updated: 2025/05/20 10:12:46 by lazmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <philo.h>
@@ -22,7 +22,7 @@ t_philo_cluster	*cluster_get(void)
 
 int	cluster_init_data(t_philo_cluster *cluster, long *stats, size_t count)
 {
-	cluster->threads = malloc(sizeof(*cluster->threads) * (count + 1));
+	cluster->threads = xmalloc(sizeof(*cluster->threads) * (count + 1));
 	if (!cluster->threads)
 	{
 		cluster_free();
@@ -30,12 +30,12 @@ int	cluster_init_data(t_philo_cluster *cluster, long *stats, size_t count)
 	}
 	if (!init_philosophers(cluster, stats))
 		return (cluster->init_success);
-	if (pthread_mutex_init(&cluster->outlock, NULL) != 0)
+	if (!philo_mutex_init(&cluster->outlock))
 	{
 		cluster_free();
 		return (cluster->init_success);
 	}
-	if (pthread_mutex_init(&cluster->state_lock, NULL) != 0)
+	if (!philo_mutex_init(&cluster->state_lock))
 	{
 		pthread_mutex_destroy(&cluster->outlock);
 		cluster_free();
@@ -54,10 +54,10 @@ int	cluster_init(long *stats)
 	cluster->count = 0;
 	count = stats[NUMBER_OF_PHILOSOPHERS];
 	cluster->cluster_state = STILL_GOING;
-	cluster->philos = malloc(sizeof(*cluster->philos) * count);
+	cluster->philos = xmalloc(sizeof(*cluster->philos) * count);
 	if (!cluster->philos)
 		return (0);
-	cluster->forks = malloc(sizeof(*cluster->forks) * count);
+	cluster->forks = xmalloc(sizeof(*cluster->forks) * count);
 	if (!cluster->forks)
 	{
 		cluster_free();

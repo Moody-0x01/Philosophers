@@ -6,15 +6,14 @@
 /*   By: lazmoud <lazmoud@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:36:42 by lazmoud           #+#    #+#             */
-/*   Updated: 2025/05/16 15:50:47 by lazmoud          ###   ########.fr       */
+/*   Updated: 2025/05/18 19:02:30 by lazmoud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <philo.h>
 
 static	int	init_meal_count_lock(t_philo_cluster *cluster)
 {
-	if (pthread_mutex_init(&(cluster->philos[cluster->count].meal_count_lock),
-			NULL))
+	if (!philo_mutex_init(&(cluster->philos[cluster->count].meal_count_lock)))
 	{
 		pthread_mutex_destroy(&(cluster->philos[cluster->count].philo_ts_lock));
 		pthread_mutex_destroy(cluster->forks + cluster->count);
@@ -28,20 +27,18 @@ static	int	init_meal_count_lock(t_philo_cluster *cluster)
 
 int	init_philosopher_mtxs(t_philo_cluster *cluster)
 {
-	if (pthread_mutex_init(cluster->forks + cluster->count, NULL))
+	if (!philo_mutex_init(cluster->forks + cluster->count))
 	{
 		cluster_free();
 		return (0);
 	}
-	if (pthread_mutex_init(&(cluster->philos[cluster->count].philo_state_lock),
-			NULL))
+	if (!philo_mutex_init(&(cluster->philos[cluster->count].philo_state_lock)))
 	{
 		pthread_mutex_destroy(cluster->forks + cluster->count);
 		cluster_free();
 		return (0);
 	}
-	if (pthread_mutex_init(&(cluster->philos[cluster->count].philo_ts_lock),
-			NULL))
+	if (!philo_mutex_init(&(cluster->philos[cluster->count].philo_ts_lock)))
 	{
 		pthread_mutex_destroy(cluster->forks + cluster->count);
 		pthread_mutex_destroy(&(cluster->philos[cluster->count]
