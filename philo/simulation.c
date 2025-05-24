@@ -28,7 +28,8 @@ static long	get_time_left_to_die(t_philo *target)
 
 void	*simulation_start(t_philo *target)
 {
-	int	is_even;
+	int		is_even;
+	long	left;
 
 	is_even = (target->id - 1) % 2;
 	if (is_even == 0)
@@ -49,7 +50,9 @@ void	*simulation_start(t_philo *target)
 		log_action(target, "is thinking", THINKING);
 		if ((cluster_get()->count % 2) != 0)
 		{
-			usleep(1000 * get_time_left_to_die(target));
+			left = get_time_left_to_die(target);
+			if (left > 0)
+				usleep(1000 * left);
 		}
 	}
 	return (NULL);
