@@ -120,7 +120,6 @@ void			*simulation_start(t_philo *target);
 void			philo_kill(t_philo *target);
 void			philo_sleep(t_philo *target);
 void			philo_eat(t_philo *target);
-void			philo_think(t_philo *target);
 int				philo_check_hp(void);
 int				philo_is_starved(t_philo *target);
 int				should_sim_stop(void);
